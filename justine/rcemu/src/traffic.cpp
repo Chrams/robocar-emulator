@@ -227,15 +227,15 @@ void justine::robocar::Traffic::cmd_session ( boost::asio::ip::tcp::socket clien
                 {
 
                   bool hasGangsters {false};
-		  std::vector<std::shared_ptr<justine::robocar::SmartCar>>::iterator it;
-		  for(it=m_smart_cars.begin(); it!=m_smart_cars.end(); ++it)
+		  std::vector<std::shared_ptr<justine::robocar::SmartCar>>::iterator ite;
+		  for(ite=m_smart_cars.begin(); ite!=m_smart_cars.end(); ++ite)
                   //for ( auto c:m_smart_cars )
                     {
-                      if ( (*it)->get_type() == CarType::GANGSTER )
+                      if ( (*ite)->get_type() == CarType::GANGSTER )
                         {
                           length += std::sprintf ( data+length,
-                                                   "<OK %d %u %u %u>", cl.get_id(), (*it)->from(),
-                                                   (*it)->to_node(), (*it)->get_step() );
+                                                   "<OK %d %u %u %u>", cl.get_id(), (*ite)->from(),
+                                                   (*ite)->to_node(), (*ite)->get_step() );
 
                           if ( length > network_buffer_size - 512 )
                             {
@@ -264,11 +264,13 @@ void justine::robocar::Traffic::cmd_session ( boost::asio::ip::tcp::socket clien
                 {
 
                   bool hasCops {false};
-                  for ( auto c:m_cop_cars )
+		  std::vector<std::shared_ptr<justine::robocar::CopCar>>::iterator iter;
+		  for(iter=m_cop_cars.begin(); iter!=m_cop_cars.end(); ++iter)
+                  //for ( auto c:m_cop_cars )
                     {
                       length += std::sprintf ( data+length,
-                                               "<OK %d %u %u %u %d>", cl.get_id(), c->from(),
-                                               c->to_node(), c->get_step(), c->get_num_captured_gangsters() );
+                                               "<OK %d %u %u %u %d>", cl.get_id(), (*iter)->from(),
+                                               (*iter)->to_node(), (*iter)->get_step(), (*iter)->get_num_captured_gangsters() );
 
                       if ( length > network_buffer_size - 512 )
                         {
