@@ -89,15 +89,17 @@ public:
 
     std::fstream gpsFile ( map_file, std::ios_base::out );
 
-    for ( auto loc: m_waynode_locations )
+    justine::robocar::WaynodeLocations::iterator it;
+    for(it=m_waynode_locations.begin(); it!=m_waynode_locations.end(); ++it)
+    //for ( auto loc: m_waynode_locations )
       {
-        gpsFile << loc.first
-                << " " << loc.second.lat()
-                << " " << loc.second.lon();
+        gpsFile << (*it).first
+                << " " << (*it).second.lat()
+                << " " << (*it).second.lon();
 
         if ( mode )
           gpsFile <<
-                  " " << node2way ( loc.first );
+                  " " << node2way ( (*it).first );
 
         gpsFile << std::endl;
       }
