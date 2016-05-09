@@ -192,8 +192,11 @@ public:
 
     std::cout << "The traffic simulation is over." << std::endl;
 
-    for ( auto c:m_cop_cars )
-      *logFile  << *c << std::endl;
+    std::vector<std::shared_ptr<justine::robocar::CopCar>>::iterator it;
+    for(it=m_cop_cars.begin();it!=m_cop_cars.end();++it)
+      *logFile << *(*it) << std::endl;
+    //for ( auto c:m_cop_cars )
+    //  *logFile  << *c << std::endl;
 
     logFile->close ();
 
@@ -207,10 +210,13 @@ public:
   {
 
     std::map <std::string, int> res;
-    for ( auto c:m_cop_cars )
+    std::vector<std::shared_ptr<justine::robocar::CopCar>>::iterator it;
+    for(it=m_cop_cars.begin();it!=m_cop_cars.end();++it)
+      res[(*it)->get_name()] += (*it)->get_num_captured_gangsters();
+    /*for ( auto c:m_cop_cars )
       {
         res[c->get_name()] += c->get_num_captured_gangsters();
-      }
+      }*/
 
     std::ostringstream ss;
 
